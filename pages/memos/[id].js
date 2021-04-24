@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import usePreviewOverride from "../../hooks/usePreviewOverride";
 import { getMemos, getSingleMemo } from "../../lib/content";
 
@@ -20,7 +21,13 @@ export async function getStaticProps({ params }) {
   };
 }
 const Memo = ({ memoEntry }) => {
-  const memo = usePreviewOverride(memoEntry, getSingleMemo);
+  const router = useRouter();
+  const { id } = router.query;
+
+  const memo = usePreviewOverride(memoEntry, () =>
+    getSingleMemo({ id, preview: true })
+  );
+
   return (
     <div>
       <div className="back">

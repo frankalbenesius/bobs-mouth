@@ -48,7 +48,7 @@ aside {
   justify-content: center;
 }
 .feelings > div > div {
-  max-width: 20rem;
+  max-width: 15rem;
   background: goldenrod;
   padding: 1rem;
   margin-bottom: 1rem;
@@ -70,6 +70,7 @@ aside {
   }
   .feelings > div {
     flex-direction: row;
+    flex-wrap: wrap;
   }
   .feelings > div > div {
     flex-direction: row;

@@ -1,9 +1,30 @@
+import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import Head from "next/head";
-import styles from "../styles/Home.module.css";
+import Link from "next/link";
 
-export default function Home() {
+import usePreviewOverride from "../hooks/usePreviewOverride";
+import { getFeelingList, getHomePage, getMemos } from "../lib/content";
+
+export async function getStaticProps() {
+  const homePageEntry = await getHomePage();
+  const feelingListEntry = await getFeelingList();
+  const memoEntries = await getMemos();
+  return {
+    props: {
+      homePageEntry,
+      memoEntries,
+      feelingListEntry,
+    },
+  };
+}
+
+export default function Home({ homePageEntry, memoEntries, feelingListEntry }) {
+  const homePage = usePreviewOverride(homePageEntry, getHomePage);
+  const memos = usePreviewOverride(memoEntries, getMemos);
+  const feelingList = usePreviewOverride(feelingListEntry, getFeelingList);
+
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Head>
         <title>BOB'S MOUTH</title>
         <link
@@ -12,7 +33,33 @@ export default function Home() {
         />
       </Head>
 
-      <main className={styles.main}>bob's mouth</main>
+      <main>
+        <h1>{homePage.fields.header}</h1>
+        <div>{documentToReactComponents(homePage.fields.body)}</div>
+
+        <div className="feelings">
+          <h3>FEELINGS:</h3>
+          <div>
+            {feelingList.fields.feelings.map((feeling) => (
+              <div key={feeling.sys.id}>
+                <div>{feeling.fields.label}</div>
+                <img src={feeling.fields.image.fields.file.url} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </main>
+
+      <aside>
+        <header>memos</header>
+        <ul>
+          {memos.map((memo) => (
+            <li key={memo.sys.id}>
+              <Link href={`/memos/${memo.sys.id}`}>{memo.fields.title}</Link>
+            </li>
+          ))}
+        </ul>
+      </aside>
     </div>
   );
 }

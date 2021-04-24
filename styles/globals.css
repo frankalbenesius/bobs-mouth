@@ -4,13 +4,75 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+
+  background: papayawhip;
 }
 
 a {
   color: inherit;
-  text-decoration: none;
 }
 
 * {
   box-sizing: border-box;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+}
+
+main {
+  flex: 1;
+  background: lightcyan;
+  padding: 1rem;
+  border-radius: 1rem;
+  margin: 1rem;
+}
+
+aside {
+  flex: 0;
+  min-width: 15rem;
+  margin: 1rem;
+  padding: 0;
+  background: tomato;
+  color: white;
+  padding: 1rem;
+  border-radius: 1rem;
+}
+
+.feelings > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.feelings > div > div {
+  max-width: 20rem;
+  background: goldenrod;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  text-align: center;
+  font-family: monospace;
+}
+
+.feelings img {
+  width: 100%;
+}
+
+.back {
+  padding: 1rem;
+}
+
+@media only screen and (min-width: 700px) {
+  .container {
+    flex-direction: row-reverse;
+  }
+  .feelings > div {
+    flex-direction: row;
+  }
+  .feelings > div > div {
+    flex-direction: row;
+    margin-right: 1rem;
+  }
 }
